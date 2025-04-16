@@ -12,6 +12,24 @@ The idea with the flow is to repeatedly call the custom action until the agent i
 
 It should be easy to demo an MCP example via A2A.
 
+Example interaction:
+
+```mermaid
+sequenceDiagram
+    User->>Rasa: I need reimbursement for my plane ticket
+    Rasa-->>ActionServer: action_a2a
+    ActionServer-->>A2AServer: I need reimbursement for my plane ticket
+    A2AServer-->>ActionServer: {"message": "Could you please provide the date, amount, and business...", "state":"input-required"}
+    ActionServer-->>Rasa: utter_message, slot_a2a_state=input-required
+    Rasa-->>User: Could you please provide the date, amount, and business...
+    User->>Rasa: It was Jan 1, $20, customer mtg
+    Rasa-->>ActionServer: action_a2a
+    ActionServer-->>A2AServer: It was Jan 1, $20, customer mtg
+    A2AServer-->>ActionServer: {"message": "OK. I have reimbursed you for request ID...", "state":"completed"}
+    ActionServer-->>Rasa: utter_message, slot_a2a_state=completed
+    Rasa-->>User: OK. I have reimbursed you for request ID...
+```
+
 ## Kapa Notes
 
 Kapa supports two API endpoints:
