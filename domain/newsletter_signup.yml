@@ -1,0 +1,20 @@
+version: "3.1"
+
+actions:
+  - action_add_subscriber
+
+slots:
+  email:
+    type: text
+  confirm_subscription:
+    type: bool
+
+responses:
+  utter_ask_email:
+    - text: "What is your email address?\n```code example```"
+  utter_ask_confirm_subscription:
+    - text: Please confirm you want me to send updates to you at {email}?
+  utter_invalid_email:
+    - text: "The email address you entered seems invalid. Please try again."
+  utter_subscribe_cancelled:
+    - text: "Ok, I won't send you any updates."

@@ -1,0 +1,15 @@
+recipe: default.v1
+language: en
+pipeline:
+- name: LLMCommandGenerator
+  llm:
+    type: openai
+    model_name: gpt-4
+
+policies:
+- name: FlowPolicy
+- name: rasa_plus.ml.EnterpriseSearchPolicy
+  llm:
+    type: openai
+    model_name: gpt-4
+assistant_id: 20231204-131800-feldspar-exec

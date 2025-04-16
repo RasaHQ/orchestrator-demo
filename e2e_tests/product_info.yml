@@ -1,0 +1,70 @@
+test_cases:
+  - test_case: "Inquiry about Rasa Platform"
+    steps:
+      - user: "Tell me about Rasa Platform."
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Platform"
+      - utter: utter_what_is_rasa_platform
+
+  - test_case: "Inquiry about Rasa Pro"
+    steps:
+      - user: "What can you tell me about Rasa Pro?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Pro"
+      - utter: utter_what_is_rasa_pro
+
+  - test_case: "Inquiry about Rasa Studio"
+    steps:
+      - user: "I want to know about Rasa Studio."
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Studio"
+      - utter: utter_what_is_rasa_studio
+
+  - test_case: "Inquiry about Rasa Managed Service"
+    steps:
+      - user: "Can you explain Rasa Managed Service?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Managed Service"
+      - utter: utter_what_is_rasa_managed
+
+  - test_case: "Inquiry about Rasa X/Enterprise"
+    steps:
+      - user: "Describe Rasa X or Rasa Enterprise."
+      - utter: utter_rasa_products_overview
+      - user: "Rasa X"
+      - utter: utter_what_is_rasa_x
+
+  - test_case: "General inquiry about Rasa products followed by specific inquiry about Rasa Platform"
+    steps:
+      - user: "What products does Rasa offer?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Platform"
+      - utter: utter_what_is_rasa_platform
+
+  - test_case: "General inquiry about Rasa products followed by specific inquiry about Rasa Pro"
+    steps:
+      - user: "What products does Rasa offer?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Pro"
+      - utter: utter_what_is_rasa_pro
+
+  - test_case: "General inquiry about Rasa products followed by specific inquiry about Rasa Studio"
+    steps:
+      - user: "What products does Rasa offer?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Studio"
+      - utter: utter_what_is_rasa_studio
+
+  - test_case: "General inquiry about Rasa products followed by specific inquiry about Rasa Managed Service"
+    steps:
+      - user: "What products does Rasa offer?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa Managed Service"
+      - utter: utter_what_is_rasa_managed
+
+  - test_case: "General inquiry about Rasa products followed by specific inquiry about Rasa X/Enterprise"
+    steps:
+      - user: "What products does Rasa offer?"
+      - utter: utter_rasa_products_overview
+      - user: "Rasa X"
+      - utter: utter_what_is_rasa_x

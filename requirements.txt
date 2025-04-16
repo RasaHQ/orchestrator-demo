@@ -1,0 +1,2 @@
+rasa-pro==3.12.5
+-r actions/requirements.txt

@@ -1,0 +1,19 @@
+flows:
+  contact_sales_flow:
+    name: "Contact Sales Flow"
+    description: "Flow to collect information for contacting Rasa sales."
+    steps:
+      - action: utter_moreinformation
+      - collect: "job_function"
+        description: "Collect the user's job function."
+      - collect: "use_case"
+        description: "Collect the user's use case."
+      - collect: "budget"
+        description: "Collect the budget information."
+      - collect: "person_name"
+        description: "Collect the person's name."
+      - collect: "company"
+        description: "Collect the company name."
+      - collect: "business_email"
+        description: "Collect the business email."
+      - action: action_submit_sales_form

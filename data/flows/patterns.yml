@@ -1,0 +1,10 @@
+flows:
+  pattern_search:
+    description: handle a knowledge-based question or request
+    name: pattern search
+    steps:
+    - action: action_trigger_search
+      # - action: utter_kapa_start
+      # - action: action_kapa_query
+      # - action: action_kapa_query_utter_message
+      

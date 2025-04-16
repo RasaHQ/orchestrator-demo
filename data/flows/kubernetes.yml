@@ -1,0 +1,12 @@
+flows:
+  flow_kubernetes_questions:
+    name: "Kubernetes Questions"
+    description: Kubernetes questions
+    steps:
+      - action: action_kubernetes_rag
+        next:
+          - if: slots.return_value == "failed"
+            then:
+            - action: utter_api_failed
+              next: END
+          - else: END

@@ -1,0 +1,12 @@
+flows:
+  flow_rasa_questions:
+    name: "Rasa Questions"
+    description: Rasa questions
+    steps:
+      - action: action_rasa_rag
+        next:
+          - if: slots.return_value == "failed"
+            then:
+            - action: utter_api_failed
+              next: END
+          - else: END

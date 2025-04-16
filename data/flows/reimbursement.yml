@@ -1,0 +1,14 @@
+flows:
+  flow_expense_reimbursement:
+    name: "Expense Reimbursement"
+    description: This agent handles the reimbursement process for the employees given the amount and purpose of the reimbursement
+    steps:
+      - id: run_agent
+        set_slots:
+          - a2a_agent_name: "reimbursement_agent"
+        action: action_a2a_reimbursement_agent
+        next:
+          - if: slots.a2a_status != "completed"
+            then: run_agent
+        else:
+          - action: utter_reimbursement_completed

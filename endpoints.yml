@@ -1,0 +1,84 @@
+# This file contains the different endpoints your bot can use.
+
+# Server where the models are pulled from.
+# https://rasa.com/docs/rasa/model-storage#fetching-models-from-a-server
+
+#models:
+#  url: http://my-server.com/models/default_core@latest
+#  wait_time_between_pulls:  10   # [optional](default: 100)
+
+# Server which runs your custom actions.
+# https://rasa.com/docs/rasa/custom-actions
+
+action_endpoint:
+  url: "http://localhost:5055/webhook"
+
+# Tracker store which is used to store the conversations.
+# By default the conversations are stored in memory.
+# https://rasa.com/docs/rasa/tracker-stores
+
+#tracker_store:
+#    type: redis
+#    url: <host of the redis instance, e.g. localhost>
+#    port: <port of your redis instance, usually 6379>
+#    db: <number of your database within redis, e.g. 0>
+#    password: <password used for authentication>
+#    use_ssl: <whether or not the communication is encrypted, default false>
+
+#tracker_store:
+#    type: mongod
+#    url: <url to your mongo instance, e.g. mongodb://localhost:27017>
+#    db: <name of the db within your mongo instance, e.g. rasa>
+#    username: <username used for authentication>
+#    password: <password used for authentication>
+
+# Event broker which all conversation events should be streamed to.
+# https://rasa.com/docs/rasa/event-brokers
+
+#event_broker:
+#  url: localhost
+#  username: username
+#  password: password
+#  queue: queue
+
+nlg:
+  type: rephrase
+  rephrase_all: true
+
+vector_store:
+  url: "https://api.kapa.ai/query/v1"
+  kapa_endpoint_type: "search"
+  kapa_project_id: ${KAPA_PROJECT_ID}
+  kapa_token: ${KAPA_TOKEN}
+  kapa_num_results: 8
+
+model_groups:
+  - id: gpt4o
+    models:
+      - provider: openai
+        model: gpt-4o
+        cache:
+          no-cache: true
+
+  - id: sonnet-37
+    models:
+      - provider: bedrock
+        model: anthropic.claude-3-7-sonnet-20250219-v1:0
+        model_id: arn:aws:bedrock:us-east-2:961893475800:inference-profile/us.anthropic.claude-3-7-sonnet-20250219-v1:0
+        aws_region_name: us-east-2
+        timeout: 8
+
+  # type: "components.kapa.Kapa"
+  # endpoint type can be "chat" or "search"
+  # "search" uses https://docs.kapa.ai/api#tag/Search
+  # docs say search is at: https://api.kapa.ai/query/v1/projects/:project_id/search/
+  # "chat" uses https://docs.kapa.ai/api#tag/Chat/operation/query_v1_projects_chat
+  # docs say chat is at: https://api.kapa.ai/query/v1/projects/:project_id/chat/
+
+  # token: ${KAPA_API_TOKEN_EXTERNAL_DOCSBOT}
+
+# vector_store:
+#   type: qdrant
+#   collection: make_this_parameterizable_per_api_call
+#   host: 0.0.0.0
+#   port: 6333

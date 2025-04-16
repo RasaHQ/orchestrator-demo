@@ -1,0 +1,13 @@
+version: "3.1"
+
+actions:
+  - action_kapa_query
+  - action_kapa_query_utter_message
+
+slots:
+  kapa_query_json:
+    type: any
+
+responses:
+  utter_kapa_start:
+    - text: Hold on while I search for that in the knowledge-base, which can take up to 15 seconds...

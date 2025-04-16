@@ -1,0 +1,21 @@
+flows:
+  newsletter_signup:
+    name: "Newsletter Signup Flow"
+    description: "Flow to sign up for a newsletter or product updates."
+    steps:
+      - id: "collect_email"
+        collect: "email"
+        description: "Collect the user's email address."
+        reset_after_flow_ends: false
+        rejections:
+          - if: not slots.email
+            utter: utter_invalid_email
+      - collect: "confirm_subscription"
+        next:
+          - if: slots.confirm_subscription == True
+            then:
+            - action: action_add_subscriber
+              next: END
+          - else:
+            - action: utter_subscribe_cancelled
+              next: END

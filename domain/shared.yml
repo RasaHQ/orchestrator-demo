@@ -1,0 +1,27 @@
+version: "3.1"
+
+actions:
+  - action_session_start
+  - action_kubernetes_rag
+  - action_rasa_rag
+  
+slots:
+  return_value:
+    type: any
+
+  # We have 3 bots configured in kapa.ai, with API KEYs defined as environment variables:
+  #   external_docsbot = bot on docs.rasa.com
+  #   external_mainbot = bot on rasa.com
+  #   internal = bot for internal use only
+  which_bot:
+    type: categorical
+    values:
+      - external_docsbot
+      - external_mainbot
+      - internal
+    mappings: 
+    - type: custom
+
+responses:
+  utter_api_failed:
+    - text: "Sorry, we had an API failure. Please try again later."
