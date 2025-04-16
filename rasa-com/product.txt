@@ -1,5 +1,0 @@
-https://rasa.com/product/rasa-platform/
-https://rasa.com/product/rasa-pro/
-https://rasa.com/product/rasa-studio/
-https://rasa.com/product/managed-service/
-https://rasa.com/product/pricing/

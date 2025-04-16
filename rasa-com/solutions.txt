@@ -1,8 +1,0 @@
-https://rasa.com/solutions/customer-service-automation/
-https://rasa.com/solutions/enterprise-operations/
-https://rasa.com/solutions/lead-generation-sales/
-https://rasa.com/solutions/voice/
-https://rasa.com/solutions/financial-services/
-https://rasa.com/solutions/healthcare/
-https://rasa.com/solutions/telecom/
-https://rasa.com/solutions/travel-and-transport/
