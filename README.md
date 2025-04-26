@@ -8,6 +8,8 @@ The current demo implements two RAG's using Kapa: a Rasa RAG and a Kubernetes RA
 
 The agent and MCP integration is a work in progress. There's an [expense reimbursement flow](./data/flows/reimbursement.yml) that would call a custom action that implements the A2A client. The expense reimbursement agent can be found in the Google ADA examples [project](https://github.com/google/A2A/blob/main/samples/python/agents/google_adk/README.md). An example of the A2A protocol interactions can be found below.
 
+The A2A repo has an [example](https://github.com/google/A2A/blob/main/demo/README.md) of an orchestrator that agent. A web UI can provide the url to A2A agents and the orchestrator [Host Agent](https://github.com/google/A2A/blob/main/samples/python/hosts/multiagent/host_agent.py) will register the agent at the provided url.
+
 The idea with the flow is to repeatedly call the custom action until the agent indicates it is complete.
 
 It should be easy to demo an MCP example via A2A.
@@ -29,6 +31,32 @@ sequenceDiagram
     ActionServer-->>Rasa: utter_message, slot_a2a_state=completed
     Rasa-->>User: OK. I have reimbursed you for request ID...
 ```
+
+## A2A Integration
+
+We'll use a configuration file named `a2a.yml` which the action server will read to connect to all of the available A2A agents. For our demo agent, the configuration is:
+
+```yml
+remote_agents:
+  - name: expense_reimbursement_agent
+    url: http://localhost:10002
+```
+
+### Run Sample Agent
+
+This example uses a Google ADK example expense reimbursement agent which can be found [here](https://github.com/google/A2A/blob/main/samples/python/agents/google_adk/README.md).
+
+To run the example expsnse reimbursement agent, do the following from within the A2A repo:
+
+```sh
+cd samples/python/agents/google_adk
+echo "GOOGLE_API_KEY=your_api_key_here" > .env
+uv run .
+```
+
+The agent should now be available at `http://localhost:10002`.
+
+
 
 ## Kapa Notes
 

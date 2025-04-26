@@ -48,8 +48,8 @@ nlg:
 vector_store:
   url: "https://api.kapa.ai/query/v1"
   kapa_endpoint_type: "search"
-  kapa_project_id: ${KAPA_PROJECT_ID}
-  kapa_token: ${KAPA_TOKEN}
+  # kapa_project_id: ${KAPA_PROJECT_ID}
+  # kapa_token: ${KAPA_TOKEN}
   kapa_num_results: 8
 
 model_groups:

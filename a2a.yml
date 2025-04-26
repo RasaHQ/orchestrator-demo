@@ -1,0 +1,5 @@
+remote_agents:
+  - name: "Reimbursement Agent"
+    url: http://localhost:10002
+  # - name: example_agent_2
+  #   url: http://remote-agent-2.example.com/agent_card

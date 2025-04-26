@@ -1,7 +1,7 @@
 import httpx
 from httpx_sse import connect_sse
 from typing import Any, AsyncIterable
-from common.types import (
+from actions.api.common.types import (
     AgentCard,
     GetTaskRequest,
     SendTaskRequest,

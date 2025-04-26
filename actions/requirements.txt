@@ -10,3 +10,5 @@ pandas
 # asyncio
 # aiohttp
 google-adk
+httpx-sse
+google-genai

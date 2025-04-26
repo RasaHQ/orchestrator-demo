@@ -1,4 +1,4 @@
-from common.types import (
+from actions.api.common.types import (
     JSONRPCResponse,
     ContentTypeNotSupportedError,
     UnsupportedOperationError,

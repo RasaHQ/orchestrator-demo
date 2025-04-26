@@ -1,0 +1,23 @@
+version: "3.1"
+
+actions:
+  - action_a2a
+  
+slots:
+  a2a_agent_name:
+    type: text
+  a2a_status:
+    type: categorical
+    values:
+      - completed
+      - error
+      - input-required
+      - other
+    mappings: 
+    - type: custom
+
+responses:
+  utter_reimbursement_completed:
+    - text: "Expense reimbursement process completed successfully."
+  utter_a2a_failed:
+    - text: "Sorry, we had an A2A API failure. Please try again later."
