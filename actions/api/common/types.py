@@ -131,9 +131,9 @@ class TaskSendParams(BaseModel):
     sessionId: str = Field(default_factory=lambda: uuid4().hex)
     message: Message
     acceptedOutputModes: Optional[List[str]] = None
-    pushNotification: PushNotificationConfig | None = None
-    historyLength: int | None = None
-    metadata: dict[str, Any] | None = None
+    # pushNotification: PushNotificationConfig | None = None
+    # historyLength: int | None = None
+    # metadata: dict[str, Any] | None = None
 
 
 class TaskPushNotificationConfig(BaseModel):

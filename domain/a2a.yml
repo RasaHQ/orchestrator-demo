@@ -6,6 +6,10 @@ actions:
 slots:
   a2a_agent_name:
     type: text
+  # text bot to collect any text from user to send to the agent
+  a2a_message:
+    type: text
+    initial_value: ""
   a2a_status:
     type: categorical
     values:

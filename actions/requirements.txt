@@ -12,3 +12,5 @@ pandas
 google-adk
 httpx-sse
 google-genai
+pytest
+pytest-asyncio

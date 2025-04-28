@@ -20,7 +20,9 @@ from actions.api.common.types import (
     SendTaskStreamingResponse,
 )
 import json
+import logging
 
+logger = logging.getLogger(__name__)
 
 class A2AClient:
     def __init__(self, agent_card: AgentCard = None, url: str = None):
@@ -54,6 +56,10 @@ class A2AClient:
     async def _send_request(self, request: JSONRPCRequest) -> dict[str, Any]:
         async with httpx.AsyncClient() as client:
             try:
+                # Log the request parameters
+                logger.debug(
+                    f"Sending request to URL {self.url}, payload: {request.model_dump()}"
+                )
                 # Image generation could take time, adding timeout
                 response = await client.post(
                     self.url, json=request.model_dump(), timeout=30

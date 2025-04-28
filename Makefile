@@ -6,6 +6,9 @@ rasa-train:
 rasa-test:
 	@rasa test e2e e2e_tests
 
+pytest:
+	pytest tests --log-cli-level=DEBUG
+
 rasa-run:
 	@rasa run --enable-api --cors "*"
 
