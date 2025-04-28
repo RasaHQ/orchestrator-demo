@@ -2,7 +2,14 @@
 
 This is a Rasa Orchestrator Demo bot to highlight the ability to use Rasa to orchestrate a conversation that involves multiple RAG's, agents ([A2A](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/)) and tools ([MCP](https://www.anthropic.com/news/model-context-protocol)).
 
-The current demo implements two RAG's using Kapa: a Rasa RAG and a Kubernetes RAG. This is implemented via a [Rasa questions flow](./data/flows/rasa.yml) and [custom action](./actions/rasa_rag.py) and a Kubernetes [flow](./data/flows/kubernetes.yml) and [custom action](./actions/kubernetes_rag.py).
+The current demo implements two RAG's using Kapa and two A2A agents. The RAG's cover a Rasa questions and Kubernetes questions. This is implemented via a [Rasa questions flow](./data/flows/rasa.yml) and [custom action](./actions/rasa_rag.py) and a Kubernetes [flow](./data/flows/kubernetes.yml) and [custom action](./actions/kubernetes_rag.py). The two A2A agents are a Google agent kit expense reimbursement agent and a Langgraph currency exchange agent.
+
+Example questions:
+
+- What is the config.yml
+- What is the kubectl command to show running pods
+- I need reimbursement for my hotel room
+- How many INR is one euro
 
 ## Agent Integration
 
