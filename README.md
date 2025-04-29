@@ -114,6 +114,24 @@ rasa run actions --debug
 rasa inspect
 ```
 
+### Example A2A Agent Protocol
+
+```log
+======= Agent Card ========
+{"name":"Currency Agent","description":"Helps with exchange rates for currencies","url":"http://localhost:10000/","version":"1.0.0","capabilities":{"streaming":true,"pushNotifications":true,"stateTransitionHistory":false},"defaultInputModes":["text","text/plain"],"defaultOutputModes":["text","text/plain"],"skills":[{"id":"convert_currency","name":"Currency Exchange Rates Tool","description":"Helps with exchange values between various currencies","tags":["currency conversion","currency exchange"],"examples":["What is exchange rate between USD and GBP?"]}]}
+=========  starting a new task ======== 
+
+What do you want to send to the agent? (:q or quit to exit): convert $175 AUD
+========= streaming ======== 
+stream event => {"jsonrpc":"2.0","id":"50f1cbde4d01483ca6c36ee6fe8629e9","result":{"id":"6534510a186243718f040d2454331587","status":{"state":"input-required","message":{"role":"agent","parts":[{"type":"text","text":"What currency would you like to convert AUD to? Also, do you have a specific date for the conversion you would like to use? If not, I can use the latest available exchange rate."}]},"timestamp":"2025-04-29T08:12:01.239330"},"final":true}}
+
+What do you want to send to the agent? (:q or quit to exit): USD
+========= streaming ======== 
+stream event => {"jsonrpc":"2.0","id":"2efce7cc12ad41f8a8d8748c88897398","result":{"id":"6534510a186243718f040d2454331587","status":{"state":"working","message":{"role":"agent","parts":[{"type":"text","text":"Looking up the exchange rates..."}]},"timestamp":"2025-04-29T08:12:16.196794"},"final":false}}
+stream event => {"jsonrpc":"2.0","id":"2efce7cc12ad41f8a8d8748c88897398","result":{"id":"6534510a186243718f040d2454331587","status":{"state":"working","message":{"role":"agent","parts":[{"type":"text","text":"Processing the exchange rates.."}]},"timestamp":"2025-04-29T08:12:17.034752"},"final":false}}
+stream event => {"jsonrpc":"2.0","id":"2efce7cc12ad41f8a8d8748c88897398","result":{"id":"6534510a186243718f040d2454331587","status":{"state":"input-required","message":{"role":"agent","parts":[{"type":"text","text":"I can confirm that the current exchange rate from AUD to USD is 0.64059. Would you like me to calculate the estimated value of $175 AUD in USD using this exchange rate?"}]},"timestamp":"2025-04-29T08:12:18.940013"},"final":true}}
+```
+
 ## ToDo
 
 - Clean-up repo

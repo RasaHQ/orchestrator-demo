@@ -327,10 +327,11 @@ class ActionA2A(Action):
                     dispatcher.utter_message(part.text)
 
         # Send artifact text parts
-        for artifact in task.artifacts:
-            for part in artifact.parts:
-                if part.type == "text":
-                    dispatcher.utter_message(part.text)
-                if part.type == "data" and "instructions" in part.data:
-                    logger.debug(f"Uttering instructions: {part.data['instructions']}")
-                    dispatcher.utter_message(part.data["instructions"])
+        if task.artifacts:
+            for artifact in task.artifacts:
+                for part in artifact.parts:
+                    if part.type == "text":
+                        dispatcher.utter_message(part.text)
+                    if part.type == "data" and "instructions" in part.data:
+                        logger.debug(f"Uttering instructions: {part.data['instructions']}")
+                        dispatcher.utter_message(part.data["instructions"])
