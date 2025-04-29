@@ -13,13 +13,9 @@ Example questions:
 
 ## Agent Integration
 
-The agent integration is a work in progress. There's an [expense reimbursement flow](./data/flows/reimbursement.yml) that would call a custom action that implements the A2A client and a [curreny exchange flow](./data/flows/currency_exchange.yml).
+The agent integration is a work in progress. There's an [expense reimbursement flow](./data/flows/reimbursement.yml) that calls a custom action that implements the A2A client and a [curreny exchange flow](./data/flows/currency_exchange.yml). The expense reimbursement agent has a [bug](https://github.com/google/A2A/issues/332) which causes it to frequently return a status of `completed` when the agent still needs input.
 
-The A2A repo has an [example](https://github.com/google/A2A/blob/main/demo/README.md) of an orchestrator that agent. A web UI can provide the url to A2A agents and the orchestrator [Host Agent](https://github.com/google/A2A/blob/main/samples/python/hosts/multiagent/host_agent.py) will register the agent at the provided url.
-
-The idea with the flow is to repeatedly call the custom action until the agent indicates it is complete.
-
-It should be easy to demo an MCP example via A2A.
+It should be easy to demo an MCP example via A2A. There's a discussion about an MCP version [here](https://github.com/google/A2A/issues/281) including an example [here](https://github.com/djsamseng/blpapi-a2a/blob/main/src/blpapi_a2a/blp_a2a_agent.py)
 
 Example interaction:
 
