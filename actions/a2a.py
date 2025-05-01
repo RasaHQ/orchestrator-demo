@@ -3,7 +3,19 @@ import uuid
 from typing import Dict, Optional, Any, Callable
 import logging
 
-from actions.api.common.types import AgentCard, Task, TaskSendParams, TaskState, Message, TaskStatusUpdateEvent, TaskStatus, TaskArtifactUpdateEvent
+from actions.api.common.types import (
+    AgentCard,
+    Task,
+    TaskSendParams,
+    TaskState,
+    Message,
+    TaskStatusUpdateEvent,
+    TaskStatus,
+    TaskArtifactUpdateEvent,
+    AgentCapabilities,
+    AgentSkill,
+    Artifact,
+)
 from actions.api.common.client import A2AClient, A2ACardResolver
 from actions.api.common.types import TextPart, SendTaskRequest, SendTaskResponse
 
@@ -17,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 TaskCallbackArg = Task | TaskStatusUpdateEvent | TaskStatusUpdateEvent
 TaskUpdateCallback = Callable[[TaskCallbackArg], Task]
+
 
 class RemoteAgentConnections:
     """Handles connections and communication with a single remote agent"""
@@ -33,35 +46,41 @@ class RemoteAgentConnections:
         if self.agent_card.capabilities.streaming:
             task = None
             if task_callback:
-                task_callback(Task(
-                    id=request.id,
-                    sessionId=request.sessionId,
-                    status=TaskStatus(
-                        state=TaskState.SUBMITTED,
-                        message=request.message,
-                    ),
-                    history=[request.message],
-                ))
+                task_callback(
+                    Task(
+                        id=request.id,
+                        sessionId=request.sessionId,
+                        status=TaskStatus(
+                            state=TaskState.SUBMITTED,
+                            message=request.message,
+                        ),
+                        history=[request.message],
+                    )
+                )
             logger.debug(f"Sending request to remote agent: {request.model_dump()}")
             async for response in self.client.send_task_streaming(request.model_dump()):
-                logger.debug(f">>> stream event => {response.result.model_dump_json(exclude_none=True)}")
+                logger.debug(
+                    f">>> stream event => {response.result.model_dump_json(exclude_none=True)}"
+                )
                 merge_metadata(response.result, request)
                 # For task status updates, we need to propagate metadata and provide
                 # a unique message id.
-                if (hasattr(response.result, 'status') and
-                    hasattr(response.result.status, 'message') and
-                    response.result.status.message):
+                if (
+                    hasattr(response.result, "status")
+                    and hasattr(response.result.status, "message")
+                    and response.result.status.message
+                ):
                     merge_metadata(response.result.status.message, request.message)
                     m = response.result.status.message
                     logger.debug(f">>> Received status update: {m}")
                     if not m.metadata:
                         m.metadata = {}
-                    if 'message_id' in m.metadata:
-                        m.metadata['last_message_id'] = m.metadata['message_id']
-                    m.metadata['message_id'] = str(uuid.uuid4())
+                    if "message_id" in m.metadata:
+                        m.metadata["last_message_id"] = m.metadata["message_id"]
+                    m.metadata["message_id"] = str(uuid.uuid4())
                 if task_callback:
                     task = task_callback(response.result)
-                if hasattr(response.result, 'final') and response.result.final:
+                if hasattr(response.result, "final") and response.result.final:
                     break
             return task
         else:
@@ -69,29 +88,31 @@ class RemoteAgentConnections:
             merge_metadata(response.result, request)
             # For task status updates, we need to propagate metadata and provide
             # a unique message id.
-            if (hasattr(response.result, 'status') and
-                hasattr(response.result.status, 'message') and
-                response.result.status.message):
+            if (
+                hasattr(response.result, "status")
+                and hasattr(response.result.status, "message")
+                and response.result.status.message
+            ):
                 merge_metadata(response.result.status.message, request.message)
                 m = response.result.status.message
                 if not m.metadata:
                     m.metadata = {}
-                if 'message_id' in m.metadata:
-                    m.metadata['last_message_id'] = m.metadata['message_id']
-                m.metadata['message_id'] = str(uuid.uuid4())
+                if "message_id" in m.metadata:
+                    m.metadata["last_message_id"] = m.metadata["message_id"]
+                m.metadata["message_id"] = str(uuid.uuid4())
 
             if task_callback:
                 task_callback(response.result)
             return response.result
 
+
 def merge_metadata(target, source):
-    if not hasattr(target, 'metadata') or not hasattr(source, 'metadata'):
+    if not hasattr(target, "metadata") or not hasattr(source, "metadata"):
         return
     if target.metadata and source.metadata:
         target.metadata.update(source.metadata)
     elif source.metadata:
         target.metadata = dict(**source.metadata)
-
 
     # async def send_task(self, request: TaskSendParams) -> Task:
     #     """Send task to remote agent and return completed response"""
@@ -105,22 +126,29 @@ def merge_metadata(target, source):
     #     request = SendTaskRequest(params=payload)
     #     return SendTaskResponse(**await self._send_request(request))
 
-def get_message_id(m: Message | None) -> str  | None:
-  if not m or not m.metadata or 'message_id' not in m.metadata:
-    return None
-  return m.metadata['message_id']
+
+def get_message_id(m: Message | None) -> str | None:
+    if not m or not m.metadata or "message_id" not in m.metadata:
+        return None
+    return m.metadata["message_id"]
+
 
 def get_last_message_id(m: Message | None) -> str | None:
-  if not m or not m.metadata or 'last_message_id' not in m.metadata:
-    return None
-  return m.metadata['last_message_id']
+    if not m or not m.metadata or "last_message_id" not in m.metadata:
+        return None
+    return m.metadata["last_message_id"]
+
 
 def task_still_open(task: Task | None) -> bool:
-  if not task:
-    return False
-  return task.status.state in [
-      TaskState.SUBMITTED, TaskState.WORKING, TaskState.INPUT_REQUIRED
-  ]
+    if not task:
+        return False
+    return task.status.state in [
+        TaskState.SUBMITTED,
+        TaskState.WORKING,
+        TaskState.INPUT_REQUIRED,
+    ]
+
+
 class ActionA2A(Action):
     """Custom action for A2A client functionality"""
 
@@ -147,8 +175,8 @@ class ActionA2A(Action):
                 return
 
     def attach_message_to_task(self, message: Message | None, task_id: str):
-        if message and message.metadata and 'message_id' in message.metadata:
-            self._task_map[message.metadata['message_id']] = task_id
+        if message and message.metadata and "message_id" in message.metadata:
+            self._task_map[message.metadata["message_id"]] = task_id
 
     def insert_id_trace(self, message: Message | None):
         if not message:
@@ -171,19 +199,25 @@ class ActionA2A(Action):
         ]:
             task.history.append(task.status.message)
         else:
-            print("Message id already in history", get_message_id(task.status.message), task.history)
+            print(
+                "Message id already in history",
+                get_message_id(task.status.message),
+                task.history,
+            )
 
     def add_or_get_task(self, task: TaskCallbackArg):
         current_task = next(filter(lambda x: x.id == task.id, self._tasks), None)
         if not current_task:
             conversation_id = None
-            if task.metadata and 'conversation_id' in task.metadata:
-                conversation_id = task.metadata['conversation_id']
+            if task.metadata and "conversation_id" in task.metadata:
+                conversation_id = task.metadata["conversation_id"]
             current_task = Task(
                 id=task.id,
-                status=TaskStatus(state = TaskState.SUBMITTED), #initialize with submitted
+                status=TaskStatus(
+                    state=TaskState.SUBMITTED
+                ),  # initialize with submitted
                 metadata=task.metadata,
-                artifacts = [],
+                artifacts=[],
                 sessionId=conversation_id,
             )
             self.add_task(current_task)
@@ -191,24 +225,28 @@ class ActionA2A(Action):
 
         return current_task
 
-    def process_artifact_event(self, current_task:Task, task_update_event: TaskArtifactUpdateEvent):
+    def process_artifact_event(
+        self, current_task: Task, task_update_event: TaskArtifactUpdateEvent
+    ):
         artifact = task_update_event.artifact
         if not artifact.append:
-            #received the first chunk or entire payload for an artifact
+            # received the first chunk or entire payload for an artifact
             if artifact.lastChunk is None or artifact.lastChunk:
-                #lastChunk bit is missing or is set to true, so this is the entire payload
-                #add this to artifacts
+                # lastChunk bit is missing or is set to true, so this is the entire payload
+                # add this to artifacts
                 if not current_task.artifacts:
                     current_task.artifacts = []
                 current_task.artifacts.append(artifact)
             else:
-                #this is a chunk of an artifact, stash it in temp store for assemling
+                # this is a chunk of an artifact, stash it in temp store for assemling
                 if not task_update_event.id in self._artifact_chunks:
                     self._artifact_chunks[task_update_event.id] = {}
                 self._artifact_chunks[task_update_event.id][artifact.index] = artifact
         else:
             # we received an append chunk, add to the existing temp artifact
-            current_temp_artifact = self._artifact_chunks[task_update_event.id][artifact.index]
+            current_temp_artifact = self._artifact_chunks[task_update_event.id][
+                artifact.index
+            ]
             # TODO handle if current_temp_artifact is missing
             current_temp_artifact.parts.extend(artifact.parts)
             if artifact.lastChunk:
@@ -219,13 +257,20 @@ class ActionA2A(Action):
         return "action_a2a"
 
     def load_agents(self):
-        """Load agent configurations from a2a.yml"""
-        try:
-            with open("a2a.yml", "r") as file:
-                config = yaml.safe_load(file)["remote_agents"]
-                for agent in config:
-                    logger.info(f"Loading agent: {agent['name']}, {agent['url']}")
-                    cardresolver = A2ACardResolver(agent["url"])
+        """
+        Load agent configurations from a2a.yml
+        - Get agent card at {agent["base_url]}{agent["agent_card_path"]}
+        """
+        with open("a2a.yml", "r") as file:
+            config = yaml.safe_load(file)["remote_agents"]
+            for agent in config:
+                logger.info(
+                    f"Loading agent: {agent['name']}, {agent['base_url']}{agent['agent_card_path']}"
+                )
+                cardresolver = A2ACardResolver(
+                    agent["base_url"], agent["agent_card_path"]
+                )
+                try:
                     self.agent_card = cardresolver.get_agent_card()
                     self.agents[agent["name"]] = RemoteAgentConnections(
                         cardresolver.get_agent_card()
@@ -233,8 +278,56 @@ class ActionA2A(Action):
                     logger.info(
                         f"Loaded agent: {self.agent_card.name}, vers: {self.agent_card.version}"
                     )
-        except Exception as e:
-            logger.error(f"Failed to load A2A agent {agent['name']}: {str(e)}")
+                except Exception as e:
+                    logger.error(
+                        f"Failed to load A2A agent card {agent['name']}: {str(e)}"
+                    )
+            # agent_card = AgentCard(
+            #     name=agent["name"],
+            #     version="0.0.0",
+            #     url=agent["base_url"],
+            #     capabilities=AgentCapabilities(
+            #         streaming=False,
+            #         pushNotification=False,
+            #         stateTransitionHistory=False,
+            #     ),
+            #     skills=[
+            #         AgentSkill(
+            #             id="Calculator",
+            #             name="Calculator",
+            #             description="Perform calculations using the calculator tool",
+            #             examples=["What's 15 * 27?", "Calculate 125 / 5"],
+            #         ),
+            #         AgentSkill(
+            #             id="Unit Converter",
+            #             name="Unit Converter",
+            #             description="Convert between units of measurement",
+            #             examples=[
+            #                 "Convert 5 kilometers to miles",
+            #                 "How many pounds is 10 kg?",
+            #             ],
+            #         ),
+            #         AgentSkill(
+            #             id="Weather Information",
+            #             name="Weather Information",
+            #             description="Get current weather for a location",
+            #             examples=[
+            #                 "What's the weather in Tokyo?",
+            #                 "Current weather in Paris",
+            #             ],
+            #         ),
+            #         AgentSkill(
+            #             id="Date and Time",
+            #             name="Date and Time",
+            #             description="Get current date and time information",
+            #             examples=["What time is it now?", "What's today's date?"],
+            #         ),
+            #     ],
+            # )
+            # self.agents[agent["name"]] = RemoteAgentConnections(agent_card=agent_card)
+            # logger.info(
+            #     f"Loaded agent: {self.agents[agent['name']].agent_card.name}, vers: {self.agents[agent['name']].agent_card.version}"
+            # )
 
     def task_callback(self, task: TaskCallbackArg):
         if isinstance(task, TaskStatusUpdateEvent):
@@ -269,7 +362,9 @@ class ActionA2A(Action):
 
         agent_name = tracker.get_slot("a2a_agent_name")
         a2a_message = tracker.get_slot("a2a_message")
-        logger.debug(f"=== Agent name: {agent_name}, a2a_message slot: {a2a_message}, current_message: {current_message['text']} ===")
+        logger.debug(
+            f"=== Agent name: {agent_name}, a2a_message slot: {a2a_message}, current_message: {current_message['text']} ==="
+        )
         if not agent_name or agent_name not in self.agents:
             logger.error(f"Invalid A2A agent specified: {agent_name}")
             dispatcher.utter_message(
@@ -289,7 +384,7 @@ class ActionA2A(Action):
             acceptedOutputModes=["text"],
             pushNotification=None,
             historyLength=None,
-            metadata=None
+            metadata=None,
         )
 
         try:
@@ -333,5 +428,7 @@ class ActionA2A(Action):
                     if part.type == "text":
                         dispatcher.utter_message(part.text)
                     if part.type == "data" and "instructions" in part.data:
-                        logger.debug(f"Uttering instructions: {part.data['instructions']}")
+                        logger.debug(
+                            f"Uttering instructions: {part.data['instructions']}"
+                        )
                         dispatcher.utter_message(part.data["instructions"])

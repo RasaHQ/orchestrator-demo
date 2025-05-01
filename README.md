@@ -37,7 +37,7 @@ sequenceDiagram
 
 ## A2A Integration
 
-Google [announced](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) the Agent2Agent protocol as a standardized method for agent interoperability. There is both [documentation](https://google.github.io/A2A/#/documentation) and a sample [repo](https://github.com/google/A2A). A python quickstart can be found [here](https://google.github.io/A2A/#/tutorials/python/1_introduction).
+Google [announced](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) the Agent2Agent protocol as a standardized method for agent interoperability. There is both [documentation](https://google.github.io/A2A/#/documentation) and a sample [repo](https://github.com/google/A2A). A python quickstart can be found [here](https://google.github.io/A2A/#/tutorials/python/1_introduction). And a curated list of example A2A agents can be found [here](https://github.com/pab1it0/awesome-a2a).
 
 We'll use a configuration file named `a2a.yml` which the action server will read to connect to all of the available A2A agents. For our demo agent, the configuration is:
 
@@ -134,26 +134,20 @@ stream event => {"jsonrpc":"2.0","id":"2efce7cc12ad41f8a8d8748c88897398","result
 
 ## ToDo
 
-- Clean-up repo
-- Include conversation history in RAG prompt so you can ask a follow-up question
-- A2A vs MCP
-  - [A2A vs MCP](https://google.github.io/A2A/#/topics/a2a_and_mcp?id=example)
-  - [A2A w/MCP architecture](https://google.github.io/A2A/#/?id=open-standards-for-connecting-agents)
+- Implement an MCP example via A2A
+  - Changes
+    - agent should query `/` to get `agent_card_url`
+    - query `agent_card_url` to get the agent card and skill
+    - skills endpoint: `/a2a/tasks/send`
+  - Background
+    - [python_a2a](https://github.com/themanojdesai/python-a2a)
+    - [mcp examples](https://github.com/themanojdesai/python-a2a/tree/a7a15505ff7745513ebd20a8d13da7f0db68fed5/examples/mcp)
+      - [basic agent with multiple skills](https://github.com/themanojdesai/python-a2a/blob/a7a15505ff7745513ebd20a8d13da7f0db68fed5/examples/mcp/mcp_agent.py)
+- Improve Kapa integration
+  - Include conversation history in RAG prompt so you can ask a follow-up question
+  - Load docs in a json array that is processed by the jinja template
 - Implement example as A2A
   - [Google example](https://github.com/google/A2A/blob/main/samples/python/agents/google_adk/README.md)
   - [orchestrator agent](https://github.com/google/A2A/blob/main/samples/python/hosts/multiagent/host_agent.py)
-- A2A as flow
-  - Could an A2A card become a Rasa Flow & custom action that calls the agent
 - Create a flow that handles "Rasa questions that require generative responses"
   - "Create a flow to deposit money in one of my bank accounts"
-- Load docs in a json array that is processed by the jinja template
-- Implement an MCP example via A2A
-- Possible agentic platform demos
-  - crewai
-  - Smolagents
-  - Bedrock agents
-  - DSPy
-  - LangChain/LangGraph
-  - Pydantic AI
-  - AutoGen
-  - Goose

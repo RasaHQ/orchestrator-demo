@@ -1,5 +1,19 @@
 remote_agents:
   - name: "Reimbursement Agent"
-    url: http://localhost:10002
+    base_url: http://localhost:10002
+    agent_card_path: /.well-known/agent.json
   - name: "Currency Agent"
-    url: http://localhost:10000
+    base_url: http://localhost:10002
+    agent_card_path: /.well-known/agent.json
+  - name: "Weather Information"
+    base_url: http://localhost:10010
+    agent_card_path: /a2a/agent.json
+  # - name: "Calculator"
+  #   base_url: http://localhost:10010
+  #   agent_card_path: /a2a/agent.json
+  # - name: "Unit Converter"
+  #   base_url: http://localhost:10010
+  #   agent_card_path: /a2a/agent.json
+  # - name: "Date and Time"
+  #   base_url: http://localhost:10010
+  #   agent_card_path: /a2a/agent.json
