@@ -1,0 +1,11 @@
+test_cases:
+- test_case: Kubernetes_Questions_Flow
+  steps:
+  - user: "What is the Kubernetes command line tool to view pods?"
+    assertions:
+      - action_executed: "action_kubernetes_rag"
+      - generative_response_is_grounded:
+          threshold: 0.90
+          ground_truth: "The kubectl get pods command"
+      # - bot_uttered:
+      #     utter_name: "utter_can_do_something_else"

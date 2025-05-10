@@ -4,7 +4,7 @@ rasa-train:
 	@rasa train --domain domain/ 
 
 rasa-test:
-	@rasa test e2e e2e_tests
+	@rasa test e2e tests/e2e
 
 pytest:
 	pytest tests --log-cli-level=DEBUG

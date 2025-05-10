@@ -1,5 +1,0 @@
-test_cases:
-  - test_case: Test Rasa Forum Help Flow
-    steps:
-      - user: "Where can I find help about Rasa?"
-      - utter: utter_rasa_forum_info

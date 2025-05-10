@@ -1,10 +1,10 @@
 flows:
   weather_information:
     name: "Weather Information"
-    description: Questions about the weather in a specific location
+    description: Questions about the weather in a specific city
     steps:
       - set_slots:
-        - a2a_agent_name: "Weather Information"
+        - a2a_agent_name: "A2A Weather Agent"
       - id: run_agent
         action: action_a2a
         next:

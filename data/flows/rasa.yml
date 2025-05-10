@@ -1,5 +1,5 @@
 flows:
-  flow_rasa_questions:
+  rasa_questions:
     name: "Rasa Questions"
     description: Rasa questions
     steps:

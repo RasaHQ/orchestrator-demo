@@ -43,7 +43,7 @@ action_endpoint:
 
 nlg:
   type: rephrase
-  rephrase_all: true
+  rephrase_all: false
 
 vector_store:
   url: "https://api.kapa.ai/query/v1"
@@ -67,6 +67,143 @@ model_groups:
         model_id: arn:aws:bedrock:us-east-2:961893475800:inference-profile/us.anthropic.claude-3-7-sonnet-20250219-v1:0
         aws_region_name: us-east-2
         timeout: 8
+
+  - id: sonnet-35
+    models:
+      - provider: bedrock
+        model: anthropic.claude-3-5-sonnet-20241022-v2:0
+        model_id: arn:aws:bedrock:ap-southeast-2:505147427416:application-inference-profile/drlqrsfnwy1r
+        aws_region_name: ap-southeast-2
+        timeout: 8
+
+  - id: sonnet-35-20241022-v2
+    models:
+      - provider: bedrock
+        model: anthropic.claude-3-5-sonnet-20241022-v2:0
+        model_id: arn:aws:bedrock:us-east-2:961893475800:inference-profile/us.anthropic.claude-3-5-sonnet-20241022-v2:0
+        aws_region_name: us-east-2
+        timeout: 8
+  - id: nova-pro
+    models:
+      - provider: bedrock
+        model: amazon.nova-pro-v1:0
+        model_id: arn:aws:bedrock:us-east-2:961893475800:inference-profile/us.amazon.nova-pro-v1:0
+        aws_region_name: us-east-2
+        timeout: 8
+  - id: sonnet-35-20241022-v2-ap
+    models:
+      - provider: bedrock
+        model: anthropic.claude-3-5-sonnet-20241022-v2:0
+        aws_region_name: ap-southeast-2
+        timeout: 8
+
+  - id: mistral-large-2402-ap
+    models:
+      - provider: bedrock
+        model: mistral.mistral-large-2402-v1:0
+        aws_region_name: ap-southeast-2
+        timeout: 8
+  - id: gpt4-direct
+    models:
+      - provider: openai
+        model: gpt-4
+  - id: gpt4o-direct
+    models:
+      - provider: openai
+        model: gpt-4o
+
+  - id: phi4
+    models:
+      - provider: deepinfra
+        model: microsoft/phi-4
+
+  - id: deepseek-v3
+    models:
+      - provider: deepinfra
+        model: deepseek-ai/DeepSeek-V3
+
+  - id: deepseek-r1
+    models:
+      - provider: deepinfra
+        model: deepseek-ai/DeepSeek-R1
+
+  - id: DeepSeek-R1-Distill-Llama-70B
+    models:
+      - provider: deepinfra
+        model: deepseek-ai/DeepSeek-R1-Distill-Llama-70B
+        temperature: 0.0
+
+  - id: Llama-4-Maverick-17B-128E-Instruct-FP8
+    # $0.20/$0.60 in/out Mtoken
+    models:
+      - provider: deepinfra
+        model: meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8
+
+  - id: Llama-3.3-70B-Instruct
+    # $0.23/$0.40 in/out Mtoken
+    models:
+      - provider: deepinfra
+        model: meta-llama/Llama-3.3-70B-Instruct
+
+  - id: Meta-Llama-3.1-405B-Instruct
+    # $0.80 / Mtoken
+    models:
+      - provider: deepinfra
+        model: meta-llama/Meta-Llama-3.1-405B-Instruct
+
+  - id: Qwen2.5-72B-Instruct
+    # $0.13/$0.40 in/out Mtoken
+    models:
+      - provider: deepinfra
+        model: Qwen/Qwen2.5-72B-Instruct
+
+  - id: Qwen2.5-Coder-32B-Instruct
+    models:
+      - provider: deepinfra
+        model: Qwen/Qwen2.5-Coder-32B-Instruct
+
+  - id: Qwen2.5-7B-Instruct
+    models:
+      - provider: deepinfra
+        model: Qwen/Qwen2.5-7B-Instruct
+
+  - id: Qwen2.5-Omni-7B
+    models:
+      - provider: deepinfra
+        model: rgstephens/qwen-omni
+
+  - id: DeepSeek-R1-Distill-Qwen-32B
+    models:
+      - provider: deepinfra
+        model: deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
+
+  - id: gemma-3-27b-it
+    models:
+      - provider: deepinfra
+        model: google/gemma-3-27b-it
+
+  - id: gemma-3-4b-it
+    models:
+      - provider: self-hosted
+        api_base: http://localhost:8000/v1 # instead of "model_path: "/path/to/model.bin""
+        model: google/gemma-3-4b-it
+        # model: gemma-3-4b-it-GGUF/gemma-3-4b-it-Q4_K_M.gguf
+
+  - id: deepinfra-gemma-3-27b-it
+    models:
+      - provider: deepinfra
+        model: google/gemma-3-27b-it
+
+  - id: Mistral-Small-24B-Instruct-2501
+    models:
+      - provider: deepinfra
+        model: mistralai/Mistral-Small-24B-Instruct-2501
+
+   # GEMINI_API_KEY
+  - id: gemini-2.5-pro-preview-05-06
+    models:
+      - provider: gemini
+        model: gemini-2.5-pro-preview-05-06
 
   # type: "components.kapa.Kapa"
   # endpoint type can be "chat" or "search"

@@ -1,0 +1,45 @@
+test_cases:
+- test_case: Contact_Sales_Flow_Dev
+  steps:
+  - user: "I want to talk to someone at Rasa"
+    assertions:
+      - action_executed: "utter_moreinformation"
+  - user: "My job function is Developer"
+    assertions:
+      - slot_was_set:
+        - name: "job_function"
+          value: "Developer"
+      - bot_uttered:
+          utter_name: "utter_ask_use_case"
+  - user: "I would use it for Chatbot Development"
+    assertions:
+      - slot_was_set: 
+        - name: "use_case"
+          value: "Chatbot Development"
+      - bot_uttered:
+          utter_name: "utter_ask_budget"
+  - user: "My budget is 10000"
+    assertions:
+      - slot_was_set: 
+          - name: "budget"
+            value: "10000"
+      - bot_uttered:
+          utter_name: "utter_ask_person_name"
+  - user: "My name is John Doe"
+    assertions:
+    - slot_was_set: 
+        - name: "person_name"
+          value: "John Doe"
+  - user: "I work at Tech Solutions"
+    assertions:
+      - slot_was_set: 
+          - name: "company"
+            value: "Tech Solutions"
+      - bot_uttered:
+          utter_name: "utter_ask_business_email"
+  - user: "My email is johndoe@techsolutions.com"
+    assertions:
+    - slot_was_set: 
+        - name: "business_email"
+          value: "johndoe@techsolutions.com"
+    - action_executed: "action_submit_sales_form"

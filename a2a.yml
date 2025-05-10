@@ -3,17 +3,12 @@ remote_agents:
     base_url: http://localhost:10002
     agent_card_path: /.well-known/agent.json
   - name: "Currency Agent"
-    base_url: http://localhost:10002
+    base_url: http://localhost:10000
     agent_card_path: /.well-known/agent.json
-  - name: "Weather Information"
-    base_url: http://localhost:10010
-    agent_card_path: /a2a/agent.json
-  # - name: "Calculator"
+  - name: "A2A Weather Agent"
+    base_url: http://localhost:5001
+    agent_card_path: /.well-known/agent.json
+  # - name: "MCP-Enabled Assistant"
   #   base_url: http://localhost:10010
   #   agent_card_path: /a2a/agent.json
-  # - name: "Unit Converter"
-  #   base_url: http://localhost:10010
-  #   agent_card_path: /a2a/agent.json
-  # - name: "Date and Time"
-  #   base_url: http://localhost:10010
-  #   agent_card_path: /a2a/agent.json
+  #   agent_endpoint_path: /a2a/tasks/send

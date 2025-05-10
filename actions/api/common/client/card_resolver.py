@@ -22,9 +22,10 @@ class A2ACardResolver:
         get_agent_card() -> AgentCard:
             Fetches and parses the agent card JSON into an `AgentCard` object.
     """
-    def __init__(self, base_url, agent_card_path="/.well-known/agent.json"):
+    def __init__(self, base_url, agent_card_path="/.well-known/agent.json", url="/"):
         self.base_url = base_url.rstrip("/")
         self.agent_card_path = agent_card_path.lstrip("/")
+        self.url = url.rstrip("/")
 
     def get_agent_card(self) -> AgentCard:
         with httpx.Client() as client:

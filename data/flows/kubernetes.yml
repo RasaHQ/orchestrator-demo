@@ -1,5 +1,5 @@
 flows:
-  flow_kubernetes_questions:
+  kubernetes_questions:
     name: "Kubernetes Questions"
     description: Kubernetes questions
     steps:

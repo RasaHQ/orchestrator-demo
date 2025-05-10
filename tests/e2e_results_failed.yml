@@ -1,0 +1,39 @@
+test_results:
+
+- name: Kubernetes_Questions_Flow
+  pass_status: false
+  expected_steps:
+  - user: "What is the Kubernetes command line tool to view pods?"
+    assertions:
+    - action_executed: "action_kubernetes_rag"
+    - generative_response_is_grounded:
+        threshold: 0.90
+        ground_truth: "The kubectl get pods command"
+    - bot_uttered:
+        utter_name: "utter_can_do_something_else"
+  error_path: /Users/greg/Dev/rasa/orchestrator-demo/tests/e2e/kubernetes.yaml:8
+  assertion_failure:
+    assertion:
+      threshold: 0.90
+      utter_name: null
+      utter_source: null
+      line: 8
+      ground_truth: "The kubectl get pods command"
+      type: generative_response_is_grounded
+    error_message: "Generative response 'Is there anything else you need assistance with?' given to the user input 'What is the Kubernetes command line tool to view pods?' was not grounded. Expected score to be above '0.9' threshold, but was '0.0'. The LLM Judge model has justified its score like so: There were 1 incorrect statements out of 1 total extracted statements. The justifications for these statements include: The provided statement is unsupported by the ground truth, which only states 'The kubectl get pods command' without any indication of needing assistance."
+    actual_events_transcript:
+    - 'ActionExecuted(action: action_session_start, policy: None, confidence: 1.0)'
+    - 'SessionStarted(type_name: session_started)'
+    - 'SlotSet(key: which_bot, value: external)'
+    - 'ActionExecuted(action: action_listen, policy: None, confidence: None)'
+    - UserUttered('What is the Kubernetes command line tool to view pods?', 'None', [])
+    - 'FlowStarted(flow: kubernetes_questions)'
+    - 'ActionExecuted(action: action_kubernetes_rag, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('The Kubernetes command-line tool `kubectl` is used to view pods. You can use the `kubectl get pods` command to list pods in a cluster. More details and examples are available in the [kubectl reference documentation](https://kubernetes.io/docs/reference/kubectl/).', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"utter_source\": \"action_kubernetes_rag\", \"model_id\": \"da749b3b0c194c0b8b5bb0d8ad17700d\", \"assistant_id\": \"20250413-080459-recent-bilge\"}, 1746894870.60708)"
+    - 'SlotSet(key: return_value, value: success)'
+    - 'FlowCompleted(flow: kubernetes_questions, step_id: kubernetes_questions_0_action_kubernetes_rag)'
+    - 'FlowStarted(flow: pattern_completed)'
+    - 'ActionExecuted(action: utter_can_do_something_else, policy: FlowPolicy, confidence: 1.0)'
+    - "BotUttered('Is there anything else you need assistance with?', {\"elements\": null, \"quick_replies\": null, \"buttons\": null, \"attachment\": null, \"image\": null, \"custom\": null}, {\"metadata\": {\"rephrase\": true}, \"active_flow\": \"pattern_completed\", \"step_id\": \"pattern_completed_0_utter_can_do_something_else\", \"utter_action\": \"utter_can_do_something_else\", \"utter_source\": \"ContextualResponseRephraser\", \"domain_ground_truth\": [\"What else can I help you with?\"], \"model_id\": \"da749b3b0c194c0b8b5bb0d8ad17700d\", \"assistant_id\": \"20250413-080459-recent-bilge\"}, 1746894871.9457521)"
+    - 'FlowCompleted(flow: pattern_completed, step_id: pattern_completed_0_utter_can_do_something_else)'
+    - 'ActionExecuted(action: action_listen, policy: FlowPolicy, confidence: 1.0)'

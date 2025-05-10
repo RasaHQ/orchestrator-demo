@@ -160,6 +160,9 @@ class ActionA2A(Action):
         # The self.agents dictionary is used to store and manage connections to remote agents.
         self.agents: Dict[str, RemoteAgentConnections] = {}
         self.load_agents()
+        logger.info(f"Loaded agents:")
+        for agent in self.agents:
+            logger.info(f"  - {agent}")
         self.agent_card = None
         self._tasks = []
         self._task_map = {}
@@ -268,12 +271,16 @@ class ActionA2A(Action):
                     f"Loading agent: {agent['name']}, {agent['base_url']}{agent['agent_card_path']}"
                 )
                 cardresolver = A2ACardResolver(
-                    agent["base_url"], agent["agent_card_path"]
+                    agent["base_url"], agent["agent_card_path"], agent.get("agent_endpoint_path", "/")
                 )
                 try:
                     self.agent_card = cardresolver.get_agent_card()
+                    # self.agent_card["url"] = agent.get("agent_endpoint_path", "/")
+                    logger.info(f"Agent card: {self.agent_card}")
+                    logger.info(f"agent['name']: {agent['name']}")
                     self.agents[agent["name"]] = RemoteAgentConnections(
-                        cardresolver.get_agent_card()
+                        self.agent_card
+                        # cardresolver.get_agent_card()
                     )
                     logger.info(
                         f"Loaded agent: {self.agent_card.name}, vers: {self.agent_card.version}"
@@ -366,35 +373,73 @@ class ActionA2A(Action):
             f"=== Agent name: {agent_name}, a2a_message slot: {a2a_message}, current_message: {current_message['text']} ==="
         )
         if not agent_name or agent_name not in self.agents:
-            logger.error(f"Invalid A2A agent specified: {agent_name}")
+            logger.error(f"Invalid A2A agent specified: {agent_name}, agents:")
+            for agent in self.agents:
+                logger.error(f"  - {agent}: {self.agents[agent].agent_card.name}")
             dispatcher.utter_message(
-                text=f"Invalid A2A agent specified: {agent_name}. Try again later"
+                text=f"Invalid A2A agent specified: {agent_name}. Available agents: {self.agents}. Try again later"
             )
             return [SlotSet("a2a_status", "error")]
 
+        logger.info(
+            f"=== Sending message to agent: {agent_name}, message: {current_message['text']}, session_id: {session_id} ===")
         request = TaskSendParams(
             id=str(uuid.uuid4()),
             sessionId=session_id,
             message=Message(
                 role="user",
-                parts=[TextPart(text=current_message["text"])],
+                parts=[
+                    TextPart(
+                        type="text",
+                        text=current_message["text"],
+                        metadata=None
+                    )
+                ],
                 metadata=None,
-                # metadata=current_message["metadata"]
             ),
             acceptedOutputModes=["text"],
             pushNotification=None,
             historyLength=None,
             metadata=None,
         )
+        # request = TaskSendParams(
+        #     id=str(uuid.uuid4()),
+        #     sessionId=session_id,
+        #     message=Message(
+        #         role="user",
+        #         parts=[TextPart(type="text", text=current_message["text"])],
+        #         metadata=None,
+        #     ),
+        #     acceptedOutputModes=["text"],
+        #     pushNotification=None,
+        #     historyLength=None,
+        #     metadata=None,
+        # )
+        # request = TaskSendParams(
+        #     id=str(uuid.uuid4()),
+        #     sessionId=session_id,
+        #     message=Message(
+        #         role="user",
+        #         parts=[TextPart(text=current_message["text"])],
+        #         metadata=None,
+        #         # metadata=current_message["metadata"]
+        #     ),
+        #     acceptedOutputModes=["text"],
+        #     pushNotification=None,
+        #     historyLength=None,
+        #     metadata=None,
+        # )
 
         try:
             connection = self.agents[agent_name]
             # task = await connection.send_task(payload)
+            logger.debug(f"=== Sending request: {request}")
             task = await connection.send_task(request, self.task_callback)
 
             # Process response
             status = task.status.state
             logger.debug(f"== Task status: {status} ==")
+            logger.debug(f"== Task: {task} ==")
             if status == TaskState.COMPLETED:
                 self._send_response(dispatcher, task)
                 return [SlotSet("a2a_status", "completed")]

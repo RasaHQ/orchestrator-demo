@@ -1,5 +1,5 @@
 flows:
-  flow_currency_exchange:
+  currency_exchange:
     name: "Currency Exchange"
     description: This agent handles currency exchange rates
     steps:
