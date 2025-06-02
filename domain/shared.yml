@@ -23,5 +23,7 @@ slots:
     - type: custom
 
 responses:
+  utter_greet:
+    - text: "Hello! You can get help from my Rasa and Kubernetes RAGs and talk to my available A2A agents."
   utter_api_failed:
     - text: "Sorry, we had an API failure. Please try again later."

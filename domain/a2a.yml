@@ -6,6 +6,10 @@ actions:
 slots:
   a2a_agent_name:
     type: text
+  a2a_agents:
+    type: text
+    mappings:
+      - type: controlled
   # text bot to collect any text from user to send to the agent
   a2a_message:
     type: text
@@ -23,5 +27,9 @@ slots:
 responses:
   utter_reimbursement_completed:
     - text: "Expense reimbursement process completed successfully."
+  utter_agent_list:
+    - text: "The available A2A agents are: {a2a_agents}"
+  utter_calling_a2a_agent:
+    - text: "Hold on while I contact the {a2a_agent_name}..."
   utter_a2a_failed:
     - text: "Sorry, we had an A2A API failure. Please try again later."

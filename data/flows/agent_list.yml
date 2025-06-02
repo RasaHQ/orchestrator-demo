@@ -1,0 +1,6 @@
+flows:
+  list_agents:
+    name: List A2A Agents
+    description: List available A2A agents
+    steps:
+      - action: utter_agent_list

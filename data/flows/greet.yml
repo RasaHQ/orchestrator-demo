@@ -1,0 +1,7 @@
+flows:
+  greet:
+    name: greet
+    description: User greets the bot
+    steps:
+      - action: utter_greet
+      - action: utter_agent_list

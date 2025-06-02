@@ -1,0 +1,54 @@
+{
+  "available_agents": [
+    {
+      "name": "Insurance Quote Agent",
+      "description": "This agent provides health insurance quotes by calling a dedicated API.",
+      "url": "http://localhost:10003/",
+      "version": "1.0.0",
+      "capabilities": {
+        "streaming": true,
+        "pushNotifications": false,
+        "stateTransitionHistory": false
+      },
+      "defaultInputModes": ["text", "text/plain"],
+      "defaultOutputModes": ["text", "text/plain"],
+      "skills": [
+        {
+          "id": "get_insurance_quote",
+          "name": "Get Insurance Quote",
+          "description": "Fetches health insurance quotes for individuals, couples, or families.",
+          "tags": ["insurance", "quotes", "health"],
+          "examples": [
+            "Can you get me a health insurance quote?",
+            "I need a quote for a couple, both residents, born 1990-01-01 and 1992-02-02"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reimbursement Agent",
+      "description": "This agent handles the reimbursement process for the employees given the amount and purpose of the reimbursement.",
+      "url": "http://localhost:10003/reimbursement/",
+      "version": "1.0.0",
+      "defaultInputModes": ["text", "text/plain"],
+      "defaultOutputModes": ["text", "text/plain"],
+      "capabilities": {
+        "streaming": true,
+        "pushNotifications": false,
+        "stateTransitionHistory": false
+      },
+      "skills": [
+        {
+          "id": "process_reimbursement",
+          "name": "Process Reimbursement Tool",
+          "description": "Helps with the reimbursement process for users given the amount and purpose of the reimbursement.",
+          "tags": ["reimbursement", "expense", "finance"],
+          "examples": [
+            "Can you reimburse me $20 for my lunch with the clients?",
+            "I need to get $50 back for office supplies."
+          ]
+        }
+      ]
+    }
+  ]
+}

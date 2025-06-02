@@ -5,6 +5,7 @@ flows:
     steps:
       - set_slots:
         - a2a_agent_name: "Currency Agent"
+      - action: utter_calling_a2a_agent
       - id: run_agent
         action: action_a2a
         next:

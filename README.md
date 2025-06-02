@@ -8,7 +8,7 @@ Example questions:
 
 - What is the config.yml
 - What is the kubectl command to show running pods
-- I need reimbursement for my hotel room
+- I need reimbursement for my hotel room`
 - How many INR is one euro
 
 ## Agent Integration
@@ -134,6 +134,9 @@ stream event => {"jsonrpc":"2.0","id":"2efce7cc12ad41f8a8d8748c88897398","result
 
 ## ToDo
 
+- Load agents on start of action server
+- Support agent discovery via [MCP agent registry](https://github.com/google-a2a/a2a-samples/tree/main/samples%2Fpython%2Fagents%2Fa2a_mcp)
+  - Extend a2a.yml to configure MCP agent registry and list of agents to be available via custom action
 - Implement an MCP example via A2A
   - Changes
     - agent should query `/` to get `agent_card_url`
@@ -151,3 +154,8 @@ stream event => {"jsonrpc":"2.0","id":"2efce7cc12ad41f8a8d8748c88897398","result
   - [orchestrator agent](https://github.com/google/A2A/blob/main/samples/python/hosts/multiagent/host_agent.py)
 - Create a flow that handles "Rasa questions that require generative responses"
   - "Create a flow to deposit money in one of my bank accounts"
+
+## Completed
+
+- Update to latest `a2a-sdk`
+- Add list available agents flow

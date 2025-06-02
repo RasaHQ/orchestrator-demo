@@ -1,0 +1,25 @@
+{
+  "capabilities": {
+    "pushNotifications": false,
+    "stateTransitionHistory": false,
+    "streaming": true
+  },
+  "defaultInputModes": ["text", "text/plain"],
+  "defaultOutputModes": ["text", "text/plain", "text/event-stream"],
+  "description": "This agent provides health insurance quotes by calling a dedicated API, with streaming updates.",
+  "name": "Insurance Quote Agent",
+  "skills": [
+    {
+      "description": "Fetches health insurance quotes for individuals, couples, or families and streams them.",
+      "examples": [
+        "Can you get me a health insurance quote with streaming updates?",
+        "I need a quote for a couple, both residents, born 1990-01-01 and 1992-02-02."
+      ],
+      "id": "get_insurance_quote_stream",
+      "name": "Get Insurance Quote (Streaming)",
+      "tags": ["insurance", "quotes", "health", "streaming"]
+    }
+  ],
+  "url": "http://localhost:10003/insurance/get_insurance_quote_stream",
+  "version": "1.0.0"
+}

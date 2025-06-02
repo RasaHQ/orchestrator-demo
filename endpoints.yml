@@ -97,6 +97,13 @@ model_groups:
         aws_region_name: ap-southeast-2
         timeout: 8
 
+  - id: sonnet-4
+    models:
+      - provider: bedrock
+        model: anthropic.claude-sonnet-4-20250514-v1:0
+        aws_region_name: ap-southeast-2
+        timeout: 8
+
   - id: mistral-large-2402-ap
     models:
       - provider: bedrock
@@ -204,6 +211,11 @@ model_groups:
     models:
       - provider: gemini
         model: gemini-2.5-pro-preview-05-06
+
+  - id: gemini-2.5-flash-preview-04-17
+    models:
+      - provider: gemini
+        model: gemini-2.5-flash-preview-04-17
 
   # type: "components.kapa.Kapa"
   # endpoint type can be "chat" or "search"
