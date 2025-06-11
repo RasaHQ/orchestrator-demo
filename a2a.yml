@@ -7,9 +7,9 @@ remote_agents:
     # Langgraph Example Agent
     base_url: http://localhost:10000
     agent_card_path: /.well-known/agent.json
-  - name: "Insurance Quote Agent"
-    base_url: http://localhost:10003/insurance
-    agent_card_path: /.well-known/agent.json
+  # - name: "Insurance Quote Agent"
+  #   base_url: http://localhost:10010
+  #   agent_card_path: /.well-known/agent.json
   # - name: "A2A Weather Agent"
   #   base_url: http://localhost:5001
   #   agent_card_path: /.well-known/agent.json

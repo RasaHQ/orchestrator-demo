@@ -6,9 +6,9 @@ The current demo implements two RAG's using Kapa and two A2A agents. The RAG's c
 
 Example questions:
 
-- What is the config.yml
+- What is the rasa config.yml
 - What is the kubectl command to show running pods
-- I need reimbursement for my hotel room`
+- I need reimbursement for my hotel room
 - How many INR is one euro
 
 ## Agent Integration
@@ -37,7 +37,7 @@ sequenceDiagram
 
 ## A2A Integration
 
-Google [announced](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) the Agent2Agent protocol as a standardized method for agent interoperability. There is both [documentation](https://google.github.io/A2A/#/documentation) and a sample [repo](https://github.com/google/A2A). A python quickstart can be found [here](https://google.github.io/A2A/#/tutorials/python/1_introduction). And a curated list of example A2A agents can be found [here](https://github.com/pab1it0/awesome-a2a).
+Google [announced](https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/) the Agent2Agent protocol as a standardized method for agent interoperability. There is both [documentation](https://google.github.io/A2A/#/documentation) and a sample [repo](https://github.com/google/a2a-samples). A python quickstart can be found [here](https://google.github.io/A2A/#/tutorials/python/1_introduction). And a curated list of example A2A agents can be found [here](https://github.com/pab1it0/awesome-a2a).
 
 We'll use a configuration file named `a2a.yml` which the action server will read to connect to all of the available A2A agents. For our demo agent, the configuration is:
 

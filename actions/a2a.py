@@ -37,7 +37,6 @@ from a2a.types import (
 )
 from actions.api.common.utils.push_notification_auth import PushNotificationReceiverAuth
 
-
 class Event(BaseModel):
     id: str
     actor: str = ""
@@ -45,20 +44,6 @@ class Event(BaseModel):
     content: Message
     timestamp: float
 
-
-# from actions.api.common.types import (
-#     AgentCard,
-#     Task,
-#     TaskState,
-#     Message,
-# TaskStatusUpdateEvent,
-# TaskStatus,
-# TaskArtifactUpdateEvent,
-#     AgentCapabilities,
-#     AgentSkill,
-#     Artifact,
-# )
-# from actions.api.common.types import TextPart
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
 
@@ -66,7 +51,6 @@ logger = logging.getLogger(__name__)
 
 TaskCallbackArg = Task | TaskStatusUpdateEvent | TaskArtifactUpdateEvent
 TaskUpdateCallback = Callable[[TaskCallbackArg, AgentCard], Task]
-
 
 class RemoteAgentConnections:
     """Handles connections and communication with a single remote agent"""
@@ -227,9 +211,6 @@ class ActionA2A(Action):
         # super().__init__(name)
         # The self.agents dictionary is used to store and manage connections to remote agents.
         self.agents: Dict[str, RemoteAgentConnections] = {}
-        logger.info(f"Loaded agents:")
-        for agent in self.agents:
-            logger.info(f"  - {agent}")
         self.agent_card = None
         self._tasks = []
         self._task_map = {}
@@ -340,6 +321,7 @@ class ActionA2A(Action):
         Load agent configurations from a2a.yml
         - Get agent card at {agent["base_url]}{agent["agent_card_path"]}
         """
+        logger.info("Reading a2a.yml")
         with open("a2a.yml", "r") as file:
             config = yaml.safe_load(file)["remote_agents"]
             for agent in config:
@@ -510,7 +492,6 @@ class ActionA2A(Action):
                     instructions = part.root.data.get('instructions', '')
                     if instructions:
                         self.dispatcher.utter_message(text=instructions)
-
 
     def _log_event_internally(self, task_event_data: TaskCallbackArg, agent_card: AgentCard):
         """
